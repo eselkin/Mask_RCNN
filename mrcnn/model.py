@@ -1003,6 +1003,8 @@ def build_fpn_mask_graph(rois, feature_maps, image_meta,
                            name="mrcnn_mask_deconv")(x)
     x = KL.TimeDistributed(KL.Conv2D(num_classes, (1, 1), strides=1, activation="sigmoid"),
                            name="mrcnn_mask")(x)
+    x = KL.LSTM(10, input_shape=x.output.shape, output_shape=x.output.shape, hidden=100, return_sequences=True, name="mrcnn_lstm")(x)
+        
     return x
 
 
